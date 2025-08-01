@@ -1,0 +1,127 @@
+services:
+  # Spring Boot 애플리케이션
+  was-1:
+    image: dongdaemunkiller:latest
+    container_name: was-1
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/dongdaemunkiller?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_MONGODB_URI=mongodb://mongo:27017/dongdaemunkiller
+    depends_on:
+      - redis
+      - mysql
+      - mongo
+      - webserver
+      - minio
+    networks:
+      - dev-network
+  was-2:
+    image: dongdaemunkiller:latest
+    container_name: was-2
+    ports:
+      - "8081:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - SPRING_REDIS_HOST=redis
+      - SPRING_REDIS_PORT=6379
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/dongdaemunkiller?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_MONGODB_URI=mongodb://mongo:27017/dongdaemunkiller
+    depends_on:
+      - redis
+      - mysql
+      - mongo
+      - webserver
+      - minio
+    networks:
+      - dev-network
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dongdaemunkiller
+      TZ: Asia/Seoul
+    networks:
+      - dev-network
+    volumes:
+      - dev-mysql-data:/var/lib/mysql
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    environment:
+      TZ: Asia/Seoul
+    networks:
+      - dev-app-network
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    environment:
+      MONGO_INITDB_DATABASE: dongdaemunkiller
+      TZ: Asia/Seoul
+    networks:
+      - dev-network
+    volumes:
+      - dev-mongo-data:/data/db
+
+  webserver:
+    image: dongdaemunkiller-react:latest
+    container_name: webserver
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    networks:
+      - dev-network
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    entrypoint: >
+      /bin/sh -c "sleep 10 &&
+      certbot certonly --webroot --webroot-path=/var/www/certbot
+      --email wuwang8484@gmail.com --agree-tos --no-eff-email
+      -d ddmdev.hyunbindev.site"
+    networks:
+      - app-network
+  minio:
+    image: minio/minio
+    container_name: minio
+    ports:
+      - "9002:9001"
+    volumes:
+      - dev-minio-data:/data
+    environment:
+      MINIO_ROOT_USER: hyunbinDev
+      MINIO_ROOT_PASSWORD: "@wu71903619"
+      TZ: Asia/Seoul
+    command: server /data --console-address ":9001"
+    networks:
+      - dev-network
+
+networks:
+  dev-network:
+    driver: bridge
+
+volumes:
+  certbot-etc:
+  dev-certbot-var:
+  dev-mysql-data:
+  dev-mongo-data:
+  dev-minio-data:
+
