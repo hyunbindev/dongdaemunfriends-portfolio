@@ -14,6 +14,7 @@ Social Experiment Poject dongdaemunFriends-portfolio-public-repository
 Docker, Nginx, SpringBoot, Oauth2, Redis, My-SQL, MongoDB, JPA, MINIO, React, TypeScript
 
 주요 기술 구현 및 경험
+
 ● 운영환경 인프라 구축 및 무중단 배포
 1. Linux환경에서 DOCKER를 이용한 컨테이너 기반 운영환경 인프라 구성
 2. Nginx를 통한 로드밸런싱, 리버스 프록시 처리
