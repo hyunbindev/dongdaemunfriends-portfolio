@@ -1,6 +1,8 @@
 # dongdaemunfriends
 Social Experiment Poject dongdaemunFriends-portfolio-public-repository
 
+https://www.notion.so/Friends-244950f247e380aba3cbeaf13c538802?source=copy_link
+
 동대문Friends
 친구들과 함께 여러가지 컨셉의 글을 쓰고 놀 수 있는 현재 운영 중인 웹사이트를 구축 했습니다. 실제 운영하며 마주한 이슈들과 사용자들의 피드백을 받아 현재도 개선하고 확장해 나가고 있습니다.
 
