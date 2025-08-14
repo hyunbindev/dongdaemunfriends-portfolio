@@ -22,7 +22,7 @@ Docker, Nginx, SpringBoot, Oauth2, Redis, My-SQL, MongoDB, JPA, MINIO, React, Ty
 2. Nginx를 통한 로드밸런싱, 리버스 프록시 처리
 3. Was의 이중화로 Blue Green 전략의 무중단 배포 구성
 4. GitActions를 이용한 CI/CD 파이프라인 구축
-5. 
+
 ● 파일 저장 및 리소스 최적화
 1. MinIO를 활용한 객체 스토리지 구성
 2. 이미지 WebP 서버 자원절약 방안 구성
